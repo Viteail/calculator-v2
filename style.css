@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap');
+
 *,
 *::after,
 *::before {
@@ -9,6 +12,78 @@ html {
 }
 
 body {
+  font-family: 'Chakra Petch', sans-serif;
   margin: 0;
   height: 100%;
+}
+
+:root {
+  --cyan: #6AF2F0;
+  --yellow: #ffffcc;
+  --brown: #4d2600;
+  --graycyan: #d1e0e0;
+}
+
+body > .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.calculator {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+  height: 400px;
+  width: 300px;
+  border-radius: 15px;
+  background: #c2f0f0;
+  border: 5px var(--cyan) solid;
+}
+
+.display-container {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 8px;
+  border-radius: 15px;
+  background: var(--graycyan);
+  border: 5px var(--brown) solid;
+}
+
+.main-display {
+  flex: 3;
+  font-size: 1.1rem;
+}
+
+.second-display {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.button-container {
+  flex: 4;
+  display: grid;
+  grid-template: repeat(4, 1fr) / repeat(4, 1fr);
+  gap: 10px;
+}
+
+.button-container > button {
+  font-family: 'Open Sans', sans-serif;
+  cursor: pointer;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  background: var(--yellow);
+  border: 5px var(--brown) solid;
+}
+
+.clear-btn {
+  grid-column: 1 / 3;
+}
+
+.delete-btn {
+  grid-column: 3 / 5;
 }

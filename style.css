@@ -18,10 +18,12 @@ body {
 }
 
 :root {
-  --cyan: #6AF2F0;
+  --lightcyan: #c2f0f0;
+  --cyan: #6af2f0;
   --yellow: #ffffcc;
   --brown: #4d2600;
   --graycyan: #d1e0e0;
+  --darkgraycyan: #669999;
 }
 
 body > .container {
@@ -29,6 +31,14 @@ body > .container {
   align-items: center;
   justify-content: center;
   height: 100%;
+  background-color: #f4f4ff;
+  opacity: 0.8;
+  background-image: repeating-radial-gradient(
+      circle at 0 0,
+      transparent 0,
+      #f4f4ff 4px
+    ),
+    repeating-linear-gradient(#efefff55, #efefff);
 }
 
 .calculator {
@@ -39,19 +49,23 @@ body > .container {
   height: 400px;
   width: 300px;
   border-radius: 15px;
-  background: #c2f0f0;
-  border: 5px var(--cyan) solid;
+  box-shadow: inset 0px 0px 0px 5px var(--cyan);
+  background: var(--lightcyan);
+  border: 5px var(--brown) solid;
 }
 
 .display-container {
+  overflow: hidden;
   flex: 3;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   padding: 8px;
+  gap: 5px;
   border-radius: 15px;
   background: var(--graycyan);
   border: 5px var(--brown) solid;
+  box-shadow: inset 0px 0px 0px 4px var(--darkgraycyan);
 }
 
 .main-display {
@@ -86,4 +100,13 @@ body > .container {
 
 .delete-btn {
   grid-column: 3 / 5;
+}
+
+button {
+  box-shadow: inset 2px 2px var(--darkgraycyan);
+}
+
+button:active {
+  transform: translate(-1px, -1px);
+  box-shadow: none;
 }

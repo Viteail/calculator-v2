@@ -13,6 +13,10 @@ const NUMBERS = {
   zero: '0',
 };
 
+const DOT = {
+  dot: '.',
+};
+
 const OPERATORS = {
   addition: '+',
   subtraction: '-',
@@ -183,11 +187,11 @@ decimalPointButton.addEventListener('click', (e) => {
 });
 
 const checkDecimalPointWithoutDecimals = () => {
-  if (firstNumber[firstNumber.length - 1] === '.') {
+  if (firstNumber[firstNumber.length - 1] === DOT.dot) {
     firstNumber.pop();
     displayMainOutput();
   } else if (
-    firstNumber[firstNumber.length - 2] === '.' &&
+    firstNumber[firstNumber.length - 2] === DOT.dot &&
     firstNumber[firstNumber.length - 1] === NUMBERS.zero
   ) {
     firstNumber = firstNumber.slice(0, -2);

@@ -69,11 +69,13 @@ body > .container {
 }
 
 .main-display {
+  text-align: end;
   flex: 3;
   font-size: 1.1rem;
 }
 
 .second-display {
+  text-align: end;
   flex: 1;
   font-size: 0.9rem;
 }

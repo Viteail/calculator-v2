@@ -128,12 +128,20 @@ const attachOperatorButtonEventListeners = () => {
     button.addEventListener('click', () => {
       checkDecimalPointWithoutDecimals();
       displayMainOutput();
+
       if (firstNumber.length === 0) {
         return;
       } else {
-        operator.push(button.value);
-        switchFirstNumberToSecondNumber();
-        displaySecondOutput();
+        if (operator.length === 0) {
+          operator.push(button.value);
+          switchFirstNumberToSecondNumber();
+          displaySecondOutput();
+        } else {
+          operate();
+          operator.push(button.value);
+          switchFirstNumberToSecondNumber();
+          displaySecondOutput();
+        }
       }
     });
   });

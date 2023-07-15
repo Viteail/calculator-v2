@@ -1,10 +1,17 @@
 const numberButtons = document.querySelectorAll('.number-btn');
 const operatorButtons = document.querySelectorAll('.operator-btn');
+
 const equalButton = document.querySelector('.equal-btn');
 const clearButton = document.querySelector('.clear-btn');
 const deleteButton = document.querySelector('.delete-btn');
+const decimalPointButton = document.querySelector('.point-btn');
+
 const mainDisplay = document.querySelector('.main-display');
 const secondDisplay = document.querySelector('.second-display');
+
+const NUMBERS = {
+  zero: '0',
+};
 
 const OPERATORS = {
   addition: '+',
@@ -22,7 +29,9 @@ let secondNumber = [];
 
 const sum = () => {
   displaySecondOutput();
-  firstNumber = [(+firstNumber.join('') + +secondNumber.join('')).toString()];
+  firstNumber = (+firstNumber.join('') + +secondNumber.join(''))
+    .toString()
+    .split('');
   displayMainOutput();
   clearOperator();
   clearSecondNumber();
@@ -30,7 +39,9 @@ const sum = () => {
 
 const subtract = () => {
   displaySecondOutput();
-  firstNumber = [(+secondNumber.join('') - +firstNumber.join('')).toString()];
+  firstNumber = (+secondNumber.join('') - +firstNumber.join(''))
+    .toString()
+    .split('');
   displayMainOutput();
   clearOperator();
   clearSecondNumber();
@@ -38,7 +49,9 @@ const subtract = () => {
 
 const multiply = () => {
   displaySecondOutput();
-  firstNumber = [(+firstNumber.join('') * +secondNumber.join('')).toString()];
+  firstNumber = (+firstNumber.join('') * +secondNumber.join(''))
+    .toString()
+    .split('');
   displayMainOutput();
   clearOperator();
   clearSecondNumber();
@@ -46,7 +59,9 @@ const multiply = () => {
 
 const divide = () => {
   displaySecondOutput();
-  firstNumber = [(+secondNumber.join('') / +firstNumber.join('')).toString()];
+  firstNumber = (+secondNumber.join('') / +firstNumber.join(''))
+    .toString()
+    .split('');
   displayMainOutput();
   clearOperator();
   clearSecondNumber();
@@ -80,8 +95,12 @@ const displaySecondOutput = () => {
 
 const attachNumberButtonEventListeners = () => {
   numberButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-      firstNumber.push(button.value);
+    button.addEventListener('click', (e) => {
+      if (e.target.value === NUMBERS.zero && firstNumber[1] === NUMBERS.zero) {
+        return;
+      } else if (firstNumber[0] === NUMBERS.zero && firstNumber.length === 1) {
+        firstNumber[0] = button.value;
+      } else firstNumber.push(button.value);
       displayMainOutput();
     });
   });
@@ -107,22 +126,36 @@ const clearSecondNumber = () => {
 const attachOperatorButtonEventListeners = () => {
   operatorButtons.forEach((button) => {
     button.addEventListener('click', () => {
-      operator.push(button.value);
-      switchFirstNumberToSecondNumber();
-      displaySecondOutput();
+      checkDecimalPointWithoutDecimals();
+      displayMainOutput();
+      if (firstNumber.length === 0) {
+        return;
+      } else {
+        operator.push(button.value);
+        switchFirstNumberToSecondNumber();
+        displaySecondOutput();
+      }
     });
   });
 };
 
 equalButton.addEventListener('click', () => {
-  equalCheck = true;
-  operate();
+  checkDecimalPointWithoutDecimals();
+  if (operator.length === 0 || firstNumber.length === 0) {
+    return;
+  } else {
+    equalCheck = true;
+    operate();
+  }
 });
 
 deleteButton.addEventListener('click', () => {
+  if (firstNumber[0] === '-' && firstNumber.length === 2) {
+    firstNumber.pop();
+  }
   firstNumber.pop();
   displayMainOutput();
-})
+});
 
 clearButton.addEventListener('click', () => {
   clearFirstNumber();
@@ -130,7 +163,29 @@ clearButton.addEventListener('click', () => {
   clearOperator();
   displayMainOutput();
   displaySecondOutput();
-})
+});
+
+decimalPointButton.addEventListener('click', (e) => {
+  if (firstNumber.includes(e.target.value) || firstNumber.length === 0) {
+    return;
+  } else {
+    firstNumber.push(e.target.value);
+    displayMainOutput();
+  }
+});
+
+const checkDecimalPointWithoutDecimals = () => {
+  if (firstNumber[firstNumber.length - 1] === '.') {
+    firstNumber.pop();
+    displayMainOutput();
+  } else if (
+    firstNumber[firstNumber.length - 2] === '.' &&
+    firstNumber[firstNumber.length - 1] === NUMBERS.zero
+  ) {
+    firstNumber = firstNumber.slice(0, -2);
+    displayMainOutput();
+  }
+};
 
 attachNumberButtonEventListeners();
 attachOperatorButtonEventListeners();

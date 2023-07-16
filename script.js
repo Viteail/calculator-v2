@@ -133,38 +133,27 @@ const attachOperatorButtonEventListeners = () => {
       checkDecimalPointWithoutDecimals();
       displayMainOutput();
 
-      if (firstNumber.length === 0) {
-        return;
-      } else {
-        if (operator.length === 0) {
-          operator.push(button.value);
-          switchFirstNumberToSecondNumber();
-          displaySecondOutput();
-        } else {
-          operate();
-          operator.push(button.value);
-          switchFirstNumberToSecondNumber();
-          displaySecondOutput();
-        }
-      }
+      if (!firstNumber.length) return;
+
+      if (operator.length && checkDivideByZero()) return;
+      if (operator.length) operate();
+      operator.push(button.value);
+      switchFirstNumberToSecondNumber();
+      displaySecondOutput();
     });
   });
 };
 
 equalButton.addEventListener('click', () => {
   checkDecimalPointWithoutDecimals();
-  if (operator.length === 0 || firstNumber.length === 0) {
-    return;
-  } else {
-    equalCheck = true;
-    operate();
-  }
+  if (!operator.length || !firstNumber.length) return;
+  if (checkDivideByZero()) return;
+  equalCheck = true;
+  operate();
 });
 
 deleteButton.addEventListener('click', () => {
-  if (firstNumber[0] === '-' && firstNumber.length === 2) {
-    firstNumber.pop();
-  }
+  if (firstNumber[0] === '-' && firstNumber.length === 2) firstNumber.pop();
   firstNumber.pop();
   displayMainOutput();
 });
@@ -178,12 +167,9 @@ clearButton.addEventListener('click', () => {
 });
 
 decimalPointButton.addEventListener('click', (e) => {
-  if (firstNumber.includes(e.target.value) || firstNumber.length === 0) {
-    return;
-  } else {
-    firstNumber.push(e.target.value);
-    displayMainOutput();
-  }
+  if (firstNumber.includes(e.target.value) || !firstNumber.length) return;
+  firstNumber.push(e.target.value);
+  displayMainOutput();
 });
 
 const checkDecimalPointWithoutDecimals = () => {
@@ -196,6 +182,13 @@ const checkDecimalPointWithoutDecimals = () => {
   ) {
     firstNumber = firstNumber.slice(0, -2);
     displayMainOutput();
+  }
+};
+
+const checkDivideByZero = () => {
+  if (operator[0] === OPERATORS.division && firstNumber[0] === NUMBERS.zero) {
+    alert('cant divide by 0');
+    return true;
   }
 };
 
